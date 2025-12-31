@@ -15,8 +15,6 @@ config.conf JSON structure
       "onlyBins":1,
       "bright":100,
       "askSpiffs":1,
-      "wui_usr":"admin",
-      "wui_pwd":"launcher",
       "dwn_path": "/downloads/",
       "FGCOLOR":2016,
       "BGCOLOR":0,

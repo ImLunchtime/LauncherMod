@@ -157,7 +157,7 @@ void TouchFooter2(uint16_t color) {
 void initDisplay(bool doAll) {
 #ifndef HEADLESS
     static uint8_t _name = random(0, 3);
-    String name = "@Pirata";
+    String name = "Modded by ImLunchtime";
     String txt;
     int cor, _x, _y, show;
 
@@ -168,8 +168,8 @@ void initDisplay(bool doAll) {
     tft->stopCallback();
 #endif
 
-    if (_name == 1) name = "u/bmorcelli";
-    else if (_name == 2) name = "gh/bmorcelli";
+    // if (_name == 1) name = "u/bmorcelli";
+    // else if (_name == 2) name = "gh/bmorcelli";
     tft->drawRoundRect(3, 3, tftWidth - 6, tftHeight - 6, 5, FGCOLOR);
     tft->setTextSize(FP);
     tft->setCursor(10, 10);

@@ -96,15 +96,11 @@ int rotation = ROTATION;
 bool sdcardMounted;
 bool onlyBins;
 bool returnToMenu;
-bool update;
 bool askSpiffs;
 
 // bool command;
-size_t file_size;
 String ssid;
 String pwd;
-String wui_usr = "admin";
-String wui_pwd = "launcher";
 String dwn_path = "/downloads/";
 uint16_t total_firmware = 0;
 uint8_t current_page = 1;
@@ -117,13 +113,11 @@ const int bufSize = 1024;
 uint8_t buff[1024] = {0};
 
 #include "display.h"
-#include "massStorage.h"
 #include "mykeyboard.h"
 #include "onlineLauncher.h"
 #include "partitioner.h"
 #include "sd_functions.h"
 #include "settings.h"
-#include "webInterface.h"
 
 /*********************************************************************
 **  Function: get_partition_sizes
@@ -434,35 +428,6 @@ void loop() {
 #endif
         {
 #if TFT_HEIGHT < 135
-         "WUI", "Start WebUI",
-#else
-            "WUI",
-            "Start Web User Interface",
-#endif
-         [=]() { loopOptionsWebUi(); }
-        },
-#if defined(ARDUINO_USB_MODE) && !defined(ARDUINO_M5STACK_TAB5)
-        {
-#if TFT_HEIGHT < 135
-         "USB", "SD->USB",
-#else
-            "USB",
-            "SD->USB Interface",
-#endif
-         [=]() {
-                if (setupSdCard()) {
-                    MassStorage();
-                    tft->drawPixel(0, 0, 0);
-                    tft->fillScreen(BGCOLOR);
-                } else {
-                    displayRedStripe("Insert SD Card");
-                    delay(2000);
-                }
-            }, sdcardMounted
-        },
-#endif
-        {
-#if TFT_HEIGHT < 135
          "CFG", "Change Settings.",
 #else
             "CFG",
@@ -645,7 +610,9 @@ void loop() {
     // if there's no network information, open in Access Point Mode
     if (WiFi.status() == WL_CONNECTED) mode_ap = false;
 
-    startWebUi("", 0, mode_ap);
+    // startWebUi("", 0, mode_ap);
+    Serial.println("WebUI is disabled.");
+    while(1) delay(1000);
 
     // sorfware will keep trapped in startWebUi loop..
 }

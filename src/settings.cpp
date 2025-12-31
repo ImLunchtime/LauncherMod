@@ -467,8 +467,7 @@ bool config_exists() {
         ;
         if (conf) {
             conf.printf(
-                "[{\"%s\":%d,\"dimmerSet\":10,\"onlyBins\":1,\"bright\":100,\"askSpiffs\":1,\"wui_usr\":"
-                "\"admin\",\"wui_pwd\":\"launcher\",\"dwn_path\":\"/downloads/"
+                "[{\"%s\":%d,\"dimmerSet\":10,\"onlyBins\":1,\"bright\":100,\"askSpiffs\":1,\"dwn_path\":\"/downloads/"
                 "\",\"FGCOLOR\":2016,\"BGCOLOR\":0,\"ALCOLOR\":63488,\"even\":13029,\"odd\":12485,\",\"dev\":"
                 "0,\"wifi\":[{\"ssid\":\"myNetSSID\",\"pwd\":\"myNetPassword\"}], \"favorite\":[]}]",
                 get_efuse_mac_as_string().c_str(),
@@ -501,8 +500,6 @@ bool saveIntoNVS() {
     err |= nvsHandle->set_item("odd_color", odd_color);
     err |= nvsHandle->set_item("even_color", even_color);
     err |= nvsHandle->set_item("dev_mode", dev_mode);
-    err |= nvsHandle->set_string("wui_usr", wui_usr.c_str());
-    err |= nvsHandle->set_string("wui_pwd", wui_pwd.c_str());
     err |= nvsHandle->set_string("dwn_path", dwn_path.c_str());
 #if defined(HEADLESS)
     // SD Pins
@@ -602,8 +599,6 @@ void defaultValues() {
     even_color = 0x32e5;
 #endif
     dev_mode = false;
-    wui_usr = "admin";
-    wui_pwd = "launcher";
     dwn_path = "/downloads/";
 #if defined(HEADLESS)
     // SD Pins
@@ -647,10 +642,6 @@ bool getFromNVS() {
     err |= nvsHandle->get_item("cs", _cs);
 #endif
     char buffer[64];
-    err |= nvsHandle->get_string("wui_usr", buffer, sizeof(buffer));
-    wui_usr = String(buffer);
-    err |= nvsHandle->get_string("wui_pwd", buffer, sizeof(buffer));
-    wui_pwd = String(buffer);
     err |= nvsHandle->get_string("dwn_path", buffer, sizeof(buffer));
     dwn_path = String(buffer);
     if (err != ESP_OK) {
@@ -830,18 +821,6 @@ void getConfigs() {
                 count++;
                 log_i("Fail");
             }
-            if (setting["wui_usr"].is<String>()) {
-                wui_usr = setting["wui_usr"].as<String>();
-            } else {
-                count++;
-                log_i("Fail");
-            }
-            if (setting["wui_pwd"].is<String>()) {
-                wui_pwd = setting["wui_pwd"].as<String>();
-            } else {
-                count++;
-                log_i("Fail");
-            }
             if (setting["dwn_path"].is<String>()) {
                 dwn_path = setting["dwn_path"].as<String>();
             } else {
@@ -944,8 +923,6 @@ void saveConfigs() {
         setting["odd"] = odd_color;
         setting["even"] = even_color;
         setting["dev"] = dev_mode;
-        setting["wui_usr"] = wui_usr;
-        setting["wui_pwd"] = wui_pwd;
         setting["dwn_path"] = dwn_path;
 
         File file = SDM.open(CONFIG_FILE, FILE_WRITE, true);

@@ -29,7 +29,6 @@ Join our [Discord community](https://discord.gg/BE9by2a2FF)
   <summary><h3>OTA - OTA Update</h3></summary>
 
 - Install binaries from M5Burner repository (yes, online, without the need of a USB Cable)
-- Install binaries from a WebUI, that you can start from CFG option, installing binaries you have on your computer or smartphone
 - Install binaries from your SD Card
 </details>
 <details>
@@ -41,13 +40,7 @@ Join our [Discord community](https://discord.gg/BE9by2a2FF)
 - Install binaries
 
 </details>
-<details>
-  <summary><h3>WUI - Web User Interface</h3></summary>
-- Manage files on the SD Card
-- Install Binaries wirelessly using OTA Update option
-- Deploy instalation through the file list
 
-</details>
 <details>
   <summary><h3>CFG - Configurations (Customization)</h3></summary>
 - Charge Mode

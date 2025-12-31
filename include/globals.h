@@ -185,10 +185,6 @@ extern String ssid;
 
 extern String pwd;
 
-extern String wui_usr;
-
-extern String wui_pwd;
-
 extern String dwn_path;
 
 extern int currentIndex;
@@ -217,14 +213,8 @@ extern uint8_t buff[1024];
 
 extern const int bufSize;
 
-// Used to handle the update in webUI
-extern bool update;
-
 // Used to choose SPIFFS or not
 extern bool askSpiffs;
-
-// size o the file in the webInterface
-extern size_t file_size;
 
 #if defined(HEADLESS)
 extern uint8_t _miso;
