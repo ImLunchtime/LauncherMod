@@ -14,6 +14,12 @@
 #include <memory>
 
 namespace {
+#ifdef CARDPUTER
+#define SETTINGS_FONT_SIZE 1
+#else
+#define SETTINGS_FONT_SIZE FM
+#endif
+
 uint32_t crc32(const uint8_t *data, size_t length) {
     uint32_t crc = 0xFFFFFFFF;
     while (length--) {
@@ -116,14 +122,14 @@ bool setWifiCredential(const String &ssidValue, const String &passwordValue, boo
 void settings_menu() {
     options = {
 #ifndef E_PAPER_DISPLAY
-        {"Charge Mode", [=]() { chargeMode(); }},
+        {"Charging Mode", [=]() { chargeMode(); }},
 #endif
         {"Brightness",
                                [=]() {
              setBrightnessMenu();
              saveConfigs();
          }                                                           },
-        {"Dim time",
+        {"Screen Dim time",
                                [=]() {
              setdimmerSet();
              saveConfigs();
@@ -137,24 +143,24 @@ void settings_menu() {
     };
     if (sdcardMounted) {
         if (onlyBins)
-            options.push_back({"All Files", [=]() {
+            options.push_back({"List: All Files", [=]() {
                                    gsetOnlyBins(true, false);
                                    saveConfigs();
                                }});
         else
-            options.push_back({"Only Bins", [=]() {
+            options.push_back({"List: .bin Only", [=]() {
                                    gsetOnlyBins(true, true);
                                    saveConfigs();
                                }});
     }
 
     if (askSpiffs)
-        options.push_back({"Avoid Spiffs", [=]() {
+        options.push_back({"SPIFFS Mode: Avoid", [=]() {
                                gsetAskSpiffs(true, false);
                                saveConfigs();
                            }});
     else
-        options.push_back({"Ask Spiffs", [=]() {
+        options.push_back({"SPIFFS Mode: Ask", [=]() {
                                gsetAskSpiffs(true, true);
                                saveConfigs();
                            }});
@@ -165,8 +171,8 @@ void settings_menu() {
                        }});
 #endif
 #if defined(PART_08MB) && defined(M5STACK)
-    options.push_back({"Partition Change", [=]() { partitioner(); }});
-    options.push_back({"List of Partitions", [=]() { partList(); }});
+    options.push_back({"Change Part. Scheme", [=]() { partitioner(); }});
+    options.push_back({"List Partitions", [=]() { partList(); }});
 #endif
 
 #ifndef PART_04MB
@@ -191,7 +197,7 @@ void settings_menu() {
 #endif
 
     options.push_back({"Main Menu", [=]() { returnToMenu = true; }});
-    loopOptions(options);
+    loopOptions(options, false, RED, BLACK, true, 0, SETTINGS_FONT_SIZE);
     tft->drawPixel(0, 0, 0);
     tft->fillScreen(BGCOLOR);
 }
@@ -406,7 +412,7 @@ void setUiColor() {
              even_color = 0xb596;
          }},
     };
-    loopOptions(options);
+    loopOptions(options, false, RED, BLACK, true, 0, SETTINGS_FONT_SIZE);
     displayRedStripe("Saving...");
 }
 /*********************************************************************

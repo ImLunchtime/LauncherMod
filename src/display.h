@@ -22,7 +22,7 @@ extern Ard_eSPI *tft;
 
 int loopOptions(
     std::vector<Option> &options, bool bright = false, uint16_t al = RED, uint16_t bg = BLACK,
-    bool border = true, int index = 0
+    bool border = true, int index = 0, int fontSize = FM
 );
 void loopVersions(String fid);
 void loopFirmware();

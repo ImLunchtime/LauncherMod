@@ -430,7 +430,7 @@ void progressHandler(size_t progress, size_t total) {
 ***************************************************************************************/
 Opt_Coord drawOptions(
     int idx, std::vector<Option> &opt, std::vector<MenuOptions> &t_menu, uint16_t fgcolor, uint16_t bgcolor,
-    bool border
+    bool border, int fontSize
 ) {
     int index = idx;
     uint16_t alcolor = ALCOLOR;
@@ -459,9 +459,9 @@ Opt_Coord drawOptions(
     if (index >= arraySize) index = arraySize - 1;
 
 #ifdef E_PAPER_DISPLAY
-    int lineHeight = FM * (LH + 3);
+    int lineHeight = fontSize * (LH + 3);
 #else
-    int lineHeight = FM * LH;
+    int lineHeight = fontSize * LH;
 #endif
     const int rowSpacing = 4;
     const int paddingTop = 4;
@@ -571,7 +571,7 @@ Opt_Coord drawOptions(
     }
 
     bool firstItemSelected = (optionCount > 0 && index == start);
-    tft->setTextSize(FM);
+    tft->setTextSize(fontSize);
 
     if (border) {
         if (firstItemSelected) tft->fillRoundRect(boxX, boxY, contentWidth, contentHeight, 5, bgcolor);
@@ -801,7 +801,7 @@ void drawBatteryStatus(uint8_t bat) {
 **  Function: loopOptions
 **  Where you choose among the options in menu
 **********************************************************************/
-int loopOptions(std::vector<Option> &options, bool bright, uint16_t al, uint16_t bg, bool border, int index) {
+int loopOptions(std::vector<Option> &options, bool bright, uint16_t al, uint16_t bg, bool border, int index, int fontSize) {
     bool redraw = true;
     bool exit = false;
     log_i("Number of options: %d", options.size());
@@ -814,7 +814,7 @@ int loopOptions(std::vector<Option> &options, bool bright, uint16_t al, uint16_t
     while (1) {
         if (redraw) {
             list = {};
-            coord = drawOptions(index, options, list, al, bg, border);
+            coord = drawOptions(index, options, list, al, bg, border, fontSize);
 #if defined(E_PAPER_DISPLAY) && defined(USE_M5GFX)
             M5.Display.setEpdMode(epd_mode_t::epd_text);
 #endif
